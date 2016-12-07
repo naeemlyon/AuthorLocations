@@ -1,0 +1,56 @@
+<?xml version="1.0" standalone="yes"?>
+<%@ page contentType="text/xml; charset=UTF-8" %>
+<%@ page language="java" %>
+<%@ page import="org.openrdf.elmo.repository.*,org.openrdf.elmo.model.foaf.Group,org.openrdf.elmo.util.Util,openacademia.util.TagRanker" %> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
+
+<svg 
+     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+  <desc>TagCloud</desc>
+  <defs>
+    <path id="MyPath"
+          d="M 100 200 
+             C 200 100 300   0 400 100
+             C 500 200 600 300 700 200
+             C 800 100 900 100 900 100" />
+<path id = "s3" d = "M 10,90 Q 100,15 200,70 Q 340,140 400,30"/>
+
+	<linearGradient id = "g1" x = "0%" y = "100%">
+            <stop stop-color = "olivedrab" offset = "0%"/>
+            <stop stop-color = "peru" offset = "20%"/>
+            <stop stop-color = "goldenrod" offset = "40%"/>
+            <stop stop-color = "firebrick" offset = "60%"/>
+            <stop stop-color = "thistle" offset = "80%"/>
+            <stop stop-color = "sandybrown" offset = "100%"/>
+        </linearGradient>
+
+  </defs>
+  <text x="10" y="50" 
+        font-family="Verdana" font-size="55" fill="url(#g1)" >
+  <textPath xlink:href="#s3">
+
+    
+<%   java.util.Collection publications = (java.util.Collection) request.getAttribute("publications");
+     TagRanker ranker = new TagRanker(publications);
+     java.util.Collection rankList =  ranker.getRankings(150);
+     pageContext.setAttribute("rankList", ranker.getRankings(150)); 
+     int ratio = ranker.getMaxRankScore() / 1;
+     //Ratio can be zero
+     if (ratio == 0) {
+	ratio = 1;
+     }
+  
+     pageContext.setAttribute("ratio", new Integer(ratio));	
+%>
+    
+     <c:forEach var="ranking" items="${pageScope.rankList}" varStatus="status">
+		<tspan font-size="<c:out value="${ranking.count * 10}" />"> 
+			<c:out value="${ranking.term}"/>
+		</tspan> 				
+     </c:forEach>
+  </textPath>
+  </text>
+  <!-- Show outline of canvas using 'rect' element -->
+  <rect x="1" y="1" width="998" height="298"
+        fill="none" stroke="blue" stroke-width="2" />
+</svg>

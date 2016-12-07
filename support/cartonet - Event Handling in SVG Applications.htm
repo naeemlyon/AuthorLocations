@@ -1,0 +1,1011 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0039)http://www.carto.net/svg/eventhandling/ -->
+<!DOCTYPE html><HTML><HEAD>
+<META content="text/html; charset=utf-8" http-equiv="content-type">
+<META content="no" http-equiv="imagetoolbar"><LINK rel="icon" type="image/gif" 
+href="/srv/img/favicon.gif"><!--additional header info goes here-->
+<META name="keywords" content="SVG, ECMAScript, Javascript, event handling">
+<META name="description" content="Event Handling in SVG applications">
+<STYLE type="text/css">
+body {background-image:url('http://www.carto.net/srv/img/backmap.gif'); background-repeat:no-repeat; background-color:#ffef95; font-family:Arial,Helvetica,Geneva,sans-serif;color:#B42D25; }
+
+/*B42D25 ~ rgb(180,44,37) bordeauxrot*/
+/*161682 ~ rgb(23,23,130) dklblau */
+/*168C16 ~ rgb(23,140,23) dklgruen */
+/*ffef95 ~ rgb(255,239,149) bg-gelb */
+
+a {text-decoration:underline; color:#168C16; background: transparent}
+
+h2 a {text-decoration:none;}
+
+.inpage { color:#168C16;}
+.expage { color:#161682;}
+
+a:visited {text-decoration:none;}
+
+
+/*
+a.inpage:visited {color:#6C6F12; background: transparent}
+a.expage:visited {color:#6C125D; background: transparent}
+*/
+
+@media screen {  /* hide from IE3 */
+a[href]:hover { background: #ffa }
+}
+
+
+
+
+.lde {background-image:url('http://www.carto.net/srv/img/back_l_de.gif'); }
+.lfr {background-image:url('http://www.carto.net/srv/img/back_l_fr.gif'); }
+.len {background-image:url('http://www.carto.net/srv/img/back_l_en.gif'); }
+.les {background-image:url('http://www.carto.net/srv/img/back_l_es.gif'); }
+
+.higher { font-weight:bold; } /*TO BE REMOVED*/
+.bigger { font-weight:bold; }
+.smaller { font-size:small;}
+
+.chrihelptd { background-color:#FFEF95; } /*tabellen hintergrund in christans hilfen sollet allgem hintergrund entsprechen*/
+
+.newspostit { background-color:#f6ffd8;}
+
+
+p,h1,h2,h3,h4,ul,ol,li,div,td,th,address,blockquote,b,i,.keepnormfontcolor { font-family:Arial,Helvetica,Geneva,sans-serif; color:#B42D25 }
+tt,pre { font-family:"Courier New",Courier,monospace; color:#B42D25; }
+
+
+.info { border:1px solid; background-color:#eeeeee; padding:40px; margin:0px; }
+.info tt, .info pre { font-family:"Courier New",Courier,monospace; color:blue; }
+
+  </STYLE>
+<TITLE>carto:net -   Event Handling in SVG Applications</TITLE>
+<META name="GENERATOR" content="MSHTML 9.00.8112.16441"></HEAD>
+<BODY><A name="top"></A>
+<TABLE width="100%">
+  <TBODY>
+  <TR>
+    <TD align="left"><IMG border="0" alt="" src="cartonet%20-%20Event%20Handling%20in%20SVG%20Applications_files/navig.gif" 
+      width="600" height="111" useMap="#navig"></TD></TR></TBODY></TABLE><!-- ONLY navig.gif IMG NEEDED NORMALLY -->
+<MAP name="navig"><AREA href="http://www.carto.net/" shape="rect" alt="main page - page initiale - hauptseite - página principal" 
+  target="_top" coords="226,14,585,66"><AREA href="http://www.carto.net/projects/" 
+  shape="rect" alt="projects - projets - projekte - proyectos" coords="272,77,433,106"><AREA 
+  href="http://www.carto.net/authors/" shape="rect" alt="authors - auteurs - autoren - autores" 
+  coords="454,77,598,106"><AREA href="http://www.carto.net/papers/" shape="rect" 
+  alt="papers - exposés - berichte - papeles" coords="130,77,253,106"><AREA 
+  href="http://www.carto.net/help/" shape="rect" alt="help - aide - hilfe - ayuda" 
+  coords="25,77,109,106"></MAP>
+<DIV style="border: 0px solid red; width: 160px; height: 600px; right: 8px; margin-left: 13px; float: right;" 
+id="adBarContainer">
+<SCRIPT type="text/javascript"><!--
+google_ad_client = "pub-6049981187637171";
+	/* 160x600, Carto.net Standard */
+	google_ad_slot = "4746507232";
+	google_ad_width = 160;
+	google_ad_height = 600;
+//-->
+</SCRIPT>
+
+<SCRIPT type="text/javascript" src="cartonet%20-%20Event%20Handling%20in%20SVG%20Applications_files/show_ads.js"></SCRIPT>
+</DIV>
+<H2 class="sitemap"><A href="http://www.carto.net/">carto</A><SPAN class="expage">:</SPAN><A 
+href="http://www.carto.net/papers/">papers</A><SPAN class="expage">:</SPAN><A 
+href="http://www.carto.net/papers/svg/">svg</A><SPAN class="expage">:</SPAN><A 
+href="http://www.carto.net/papers/svg/samples/">examples</A><SPAN 
+class="expage">:</SPAN><A 
+href="http://www.carto.net/papers/svg/samples/#iact">interactivity and svg 
+gui</A><SPAN class="expage">:</SPAN>event handling</H2>
+<H2>Event Handling in SVG Applications</H2>
+<P>Tutorial and Examples provided by Andreas Neumann</P>
+<P>Version 0.9 (2006-03-04), see history at the bottom of the page</P>
+<P>This tutorial introduces event handling in SVG and ECMAScript applications. 
+Events are corner stones for interactive SVG applications. Events are necessary 
+to trigger script execution and react to user input. The event handling in SVG 
+is largely parallel to event handling in HTML with a few additional event 
+types.</P>
+<H3>Definitions regarding Events:</H3>
+<P><B>Event:</B><BR>an event is a message about a user or system input that 
+notifies state changes or user input within an application. Event-driven 
+applications are permanently looking for user or system events through an event 
+loop. Event driven programming is usually flexible and asynchronous, as the 
+system cannot know in advance if, how and how often events happen. Typical event 
+driven applications are GUI, daemons and the operating system. GUI applications 
+wait for user input events, daemons wait for network or system events/requests 
+and the operating system waits for hardware, software, network and user 
+events.</P>
+<P><B>Event Object:</B><BR>after an event has occured, an event object is 
+created containing all associated methods and properties. Available 
+<TT>methods</TT> and <TT>properties</TT> vary according to the event that 
+created the object. Properties of a mouse event might be the coordinates where 
+the mouse was when the event occured, which button was pressed or how often a 
+button was pressed at the same location. Properties of a key event might be the 
+keyCode of the key that triggered the event.</P>
+<P><B>Event Target</B><BR>a reference to the element that receives the event, 
+e.g. a SVG geometry, text, image or the document element.</P>
+<P><B>Event Handler Attribute:</B><BR>an attribute that indicates that an event 
+should be attached to an element. Event Handler Attributes always start with 
+"on...", e.g. "onmousemove", "onload" or "onkeypress". The "on" prefix is always 
+added to the event type name.</P>
+<P><B>Event Handler:</B><BR>a piece of Javascript code specified within an event 
+handler attribute that is called after an event has occured, often a very small 
+piece of code. Often the event handlers call additional Javascript functions or 
+objects that do more complex things. Objects may have event handlers as well. 
+This is typically a special method called <TT>.handleEvent()</TT>. If an object 
+is given as an event handler, the method <TT>.handleEvent()</TT> is 
+automatically called if no other method has been specified.</P>
+<P><B>Event Listener (observers):</B><BR>a�s the link between an event object 
+that was triggered and the interested event handlers (javscript functions). 
+Event listeners forward the event object to the javascript functions that 
+registered themselves as interested recipients, typically the event handlers. An 
+event can call multiple event listeners. Event listeners can be added and 
+removed during the lifetime of a program.</P>
+<P><B>Event Listener List (observer list):</B><BR>an ordered collection of event 
+listeners. The order of the registrations matters. Listeners that were 
+registered first will be called first.</P>
+<P><B>Event Dispatcher:</B><BR>is a lower level permanent background thread 
+provided by the operating system, browser or java windowing toolkit (AWT) that 
+listens for events and forwards them to interested functions or methods</P>
+<P><B>Event Flow:</B><BR>the process of the event travelling through the 
+document object hierarchy. Event flow rules follow either the <TT>event 
+capturing</TT> or <TT>event bubbling</TT> method</P>
+<P><B>Event Capturing:</B><BR>an event starts at the top of the tree (document 
+level) and travels down the hierarchy until an element is interested in the 
+event (has an event handler attribute or event listener registered). needs to be 
+further explained ...</P>
+<P><B>Event Bubbling:</B><BR>the opposite rule. An event travels from a nested 
+hierarchy up to interested ancestor elements until it reaches the document 
+element. This is the more common rule than the capturing rule. needs to be 
+further explained ...</P>
+<H3>Available Events in SVG by type:</H3>
+<P>The following event types are available in SVG (grouped into categories). The 
+"on"-values in the parenthesis indicate the name to be used in event handler 
+attributes:</P>
+<UL>
+  <LI><TT>UIEvent</TT>s (User Interface events)		
+  <UL>
+    <LI><TT>focusin (onfocusin)</TT>: an element receives focus (e.g. text 
+    selection)</LI>
+    <LI><TT>focusout (onfocusout)</TT>: an element looses focus (e.g. a text is 
+    unselected)</LI>
+    <LI><TT>activate (onactivate)</TT>: an element is activated through a mouse 
+    click or by hitting the enter or shift-enter key</LI></UL></LI>
+  <LI><TT>MouseEvent</TT>s (mouse events)		
+  <UL>
+    <LI><TT>click (onclick)</TT>: a pointing device (e.g. mouse) is clicked over 
+    an element, the <TT>mousedown</TT> and <TT>mouseup</TT> happen at the same 
+    position. If the click event happens multiple times at the same position 
+    <TT>the evt.detail</TT> attribute is incremented and contains the number of 
+    clicks</LI>
+    <LI><TT>mousedown (onmousedown)</TT>: a pointing device (e.g. mouse) is 
+    pressed over an element</LI>
+    <LI><TT>mouseup (onmouseup)</TT>: a pointing device (e.g. mouse) is released 
+    over an element</LI>
+    <LI><TT>mouseover (onmouseover)</TT>: a pointing device (e.g. mouse) is 
+    moved onto an element</LI>
+    <LI><TT>mousemove (onmousemove)</TT>: a pointing device (e.g. mouse) is 
+    moved while it is over an element</LI>
+    <LI><TT>mouseout (onmouseout)</TT>: a pointing device (e.g. mouse) is moved 
+    away from an element</LI></UL></LI>
+  <LI><TT>KeyEvent</TT>s (keyboard events, not yet part of the SVG 
+  specification, but supported in many viewers)		
+  <UL>
+    <LI><TT>keydown (onkeydown)</TT>: a key is pressed</LI>
+    <LI><TT>keyup (onkeyup)</TT>: a key is released</LI>
+    <LI><TT>keypress (onkeypress)</TT>: a key is pressed and 
+  released</LI></UL></LI>
+  <LI><TT>SVGEvent</TT>s (keyboard events, not yet part of the SVG 
+  specification, but supported in many viewers)		
+  <UL>
+    <LI><TT>SVGLoad (onload)</TT>: this event is fired after the User Agent has 
+    fully parsed and processed the SVG document or element and required external 
+    resources and is ready to start rendering to the target device</LI>
+    <LI><TT>SVGUnload (onunload)</TT>: this event is fired after the svg 
+    document was removed from the window or frame; applies only to the outermost 
+    &lt;svg/&gt; element</LI>
+    <LI><TT>SVGAbort (onabort)</TT>: this event is triggered after the loading 
+    of the document or element was aborted</LI>
+    <LI><TT>SVGError (onerror)</TT>: this event is triggered after an error 
+    occurs when loading an element or when error occurs during script 
+    execution</LI>
+    <LI><TT>SVGResize (onresize)</TT>: this event is triggered after the window, 
+    frame or embed of the outermost svg element was resized; applies only to the 
+    outermost &lt;svg/&gt; element</LI>
+    <LI><TT>SVGScroll (onscroll)</TT>: this event is triggered after the user 
+    scrolled or panned the document view; the pan or scroll can either happen 
+    through user input or through the currentTranslate property of the 
+    SVGSVGElement by script; applies only to the outermost &lt;svg/&gt; 
+    element</LI>
+    <LI><TT>SVGZoom (onzoom)</TT>: this event is triggered after the user zooms 
+    in or out in the document view; the zoom can either happen through user 
+    input or through the currentScale property of the SVGSVGElement by script; 
+    applies only to the outermost &lt;svg/&gt; element</LI></UL></LI>
+  <LI><TT>SMILEvent</TT>s (SMIL animation events)		
+  <UL>
+    <LI><TT>beginEvent (onbegin)</TT>: this event is triggered after an 
+    animation element starts animating</LI>
+    <LI><TT>endEvent (onend)</TT>: this event is triggered after an animation 
+    element stops animating</LI>
+    <LI><TT>repeatEvent (onrepeat)</TT>: this event is triggered after an 
+    animation element repeats animating</LI></UL></LI>
+  <LI><TT>MutationEvent</TT>s (DOM Tree mutation events)		
+  <UL>
+    <LI><TT>DOMSubtreeModified (none)</TT>: general event for notification of 
+    all changes to an element or document</LI>
+    <LI><TT>DOMNodeInserted (none)</TT>: event for notification when a new node 
+    was inserted into the given parent node</LI>
+    <LI><TT>DOMNodeRemoved (none)</TT>: event for notification when a node was 
+    removed from the given parent node</LI>
+    <LI><TT>DOMNodeRemovedFromDocument (none)</TT>: event for notification when 
+    a node was removed from the document either through direct removal or 
+    through removal of its ancestor nodes</LI>
+    <LI><TT>DOMNodeInsertedIntoDocument (none)</TT>: event for notification when 
+    a new node was inserted into the document either through direct insertion or 
+    through insertion of its ancestor nodes</LI>
+    <LI><TT>DOMAttrModified (none)</TT>: event for notification when a attribute 
+    of a given node was modified</LI>
+    <LI><TT>DOMCharacterDataModified (none)</TT>: event for notification when 
+    the character data within a node (e.g. for text elements) 
+  changed</LI></UL></LI></UL>
+<H3>General Properties and Methods of the Event Object:</H3>
+<P>Following is a list of basic properties and methods available for every 
+event:</P>
+<P>Properties</P>
+<UL>
+  <LI><TT>.type (String)</TT>: the type of the event, e.g. "click"</LI>
+  <LI><TT>.currentTarget (EventTarget)</TT>: a reference to the element to which 
+  the event handler was assigned</LI>
+  <LI><TT>.target (EventTarget)</TT>: a reference to the element which caught 
+  the event</LI>
+  <LI><TT>.timeStamp (Number)</TT>: timestamp in milliseconds after January 1, 
+  1970</LI>
+  <LI><TT>.bubbles (Boolean)</TT>: indicates if event bubbles</LI>
+  <LI><TT>.cancelable (Boolean)</TT>: indicates if event is cancelable</LI>
+  <LI><TT>.eventPhase (Number)</TT>: indicates in which phase the event took 
+  place: 1 (CAPTURING_PHASE), 2 (AT_TARGET), 3 (BUBBLING_PHASE)</LI></UL>
+<P>Methods</P>
+<UL>
+  <LI><TT>.initEvent()</TT> initializes a newly created event → see artificially 
+  creating an event</LI>
+  <LI><TT>.preventDefault()</TT> cancels an event if its cancelable, cancels 
+  default action</LI>
+  <LI><TT>.stopPropagation()</TT> Prevents further propagation (bubbling up in 
+  the DOM) of the current event</LI></UL>
+<P>Note the difference between <TT>evt.target</TT> and 
+<TT>evt.currentTarget</TT>. If a group has an event handler attribute and a 
+nested geometry has none, the reference "evt.target" will point to the nested 
+geometry while "evt.currentTarget" will point to the group that has the event 
+handler attribute assigned. Likewise, in case of a use-reference, 
+evt.currentTarget will point to the use-element, while evt.target points to the 
+original element (e.g. symbol definition). This is an important distinction that 
+needs consideration while designing interactive SVG apps.</P>
+<DIV class="info">
+<H3>Example 1: Basic Event Properties and Methods</H3><TT><PRE>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 400 250" onload="init()"&gt;
+    &lt;title&gt;Demonstration of basic evt properties and methods&lt;/title&gt;
+    &lt;script type="text/ecmascript"&gt;
+        &lt;![CDATA[
+            var evtText1;
+            var evtText2;
+            function init() {
+                evtText1 = document.getElementById("evtText1");
+                evtText2 = document.getElementById("evtText2");
+            }
+            function showEvtData(evt) {
+                evtText1.firstChild.nodeValue = ".type="+evt.type+", .target.id="+evt.target.getAttributeNS(null,"id")+", .currentTarget.id="+evt.currentTarget.getAttributeNS(null,"id");
+                evtText2.firstChild.nodeValue = ".timeStamp="+evt.timeStamp+", .bubbles="+evt.bubbles+", .cancelable="+evt.cancelable+", .eventPhase="+evt.eventPhase;
+                if (evt.target.getAttributeNS(null,"id") == "myBlackRect") {
+                    evt.stopPropagation();
+                }
+            }
+        ]]&gt;
+    &lt;/script&gt;
+    &lt;rect x="20" y="40" width="50" height="30" fill="red" onclick="showEvtData(evt)" onmouseover="showEvtData(evt)" onmouseout="showEvtData(evt)" id="myRedRect" /&gt;
+    &lt;g id="ancestorOfGreenRect" onclick="showEvtData(evt)" onmouseover="showEvtData(evt)" onmouseout="showEvtData(evt)"&gt;
+        &lt;rect x="80" y="40" width="50" height="30" fill="green" id="myGreenRect" /&gt;
+    &lt;/g&gt;
+    &lt;g id="ancestorOfGrayRect" onclick="alert('you clicked the ancestor of the gray rectangle')"&gt;
+        &lt;rect x="190" y="40" width="50" height="30" fill="darkgray" id="myGrayRect" onclick="showEvtData(evt)" onmouseover="showEvtData(evt)" onmouseout="showEvtData(evt)" /&gt;
+    &lt;/g&gt;
+    &lt;g id="ancestorOfBlackRect" onclick="alert('you clicked the ancestor of the black rectangle')"&gt;
+        &lt;rect x="250" y="40" width="50" height="30" fill="black" id="myBlackRect" onclick="showEvtData(evt)" onmouseover="showEvtData(evt)" onmouseout="showEvtData(evt)" /&gt;
+    &lt;/g&gt;
+    &lt;g font-size="10px" font-family="Arial"&gt;
+        &lt;text x="20" y="30" font-size="12px" font-weight="bold"&gt;Demonstration of basic evt properties and methods&lt;/text&gt;
+        &lt;text x="20" y="90"&gt;Click, mouseover and mouseout&lt;tspan x="20" dy="15"&gt;on the above red and green&lt;/tspan&gt;&lt;tspan x="20" dy="15"&gt;rectangles&lt;/tspan&gt;&lt;/text&gt;
+        &lt;text x="190" y="90"&gt;Both the rects and parents of the&lt;tspan x="190" dy="15"&gt;gray and black rects have events attached&lt;/tspan&gt;
+          &lt;tspan x="190" dy="15"&gt;for "onclick" event handler attributes&lt;/tspan&gt;&lt;tspan x="190" dy="15"&gt;but for the black rect the method&lt;/tspan&gt;&lt;tspan x="190" dy="15"&gt;.stopPropagation() is called&lt;/tspan&gt;&lt;/text&gt;
+        &lt;text x="20" y="170" id="evtText1"&gt; &lt;/text&gt;
+        &lt;text x="20" y="185" id="evtText2"&gt; &lt;/text&gt;
+    &lt;/g&gt;
+&lt;/svg&gt;
+</PRE></TT><EMBED 
+height="375" type="image/svg+xml" width="600" src="example1_basic_evt_properties_and_methods.svg">
+<P><A href="http://www.carto.net/svg/eventhandling/example1_basic_evt_properties_and_methods.svg" 
+target="_new">Link to example 1 (example1_basic_evt_properties_and_methods.svg) 
+- in a separate window)</A></P>
+<P>The above example contains four rectangles. If you <TT>mouseover</TT>, 
+<TT>mouseout</TT> or click on the rectangle you will receive all event details 
+that are shared by all events. The green rectangle has the event assigned to a 
+parent group, hence <TT>evt.target</TT> and <TT>evt.currentTarget</TT> are 
+different, so is the <TT>.eventPhase</TT> since the event was trapped in the 
+bubbling phase. The two rectangles on the right show the effect of 
+<TT>evt.stopPropagation()</TT>. Both the rectangle and the parent group have an 
+event handler attribute, but if the black rectangle was hit, the propagation of 
+the event up the DOM hierarchy was stopped.</P></DIV>
+<H3>MouseEvent Properties and Methods:</H3>
+<P>Next, we discuss properties and methods available to all mouse specific 
+events, some of the properties and methods are inherited from the general Events 
+or UIEvents:</P>
+<P>Properties</P>
+<UL>
+  <LI><TT>.type (String)</TT>: the type of the event, e.g. "click"</LI>
+  <LI><TT>.currentTarget (EventTarget)</TT>: a reference to the element to which 
+  the event handler was assigned</LI>
+  <LI><TT>.target (EventTarget)</TT>: a reference to the element which caught 
+  the event</LI>
+  <LI><TT>.timeStamp (Number)</TT>: timestamp in milliseconds after January 1, 
+  1970</LI>
+  <LI><TT>.bubbles (Boolean)</TT>: indicates if event bubbles</LI>
+  <LI><TT>.cancelable (Boolean)</TT>: indicates if event is cancelable</LI>
+  <LI><TT>.eventPhase (Number)</TT>: indicates in which phase the event took 
+  place: 1 (CAPTURING_PHASE), 2 (AT_TARGET), 3 (BUBBLING_PHASE)</LI>
+  <LI><TT>.relatedTarget (EventTarget)</TT>: a reference to the element which 
+  previously caught a mouseover or mouseout event, interesting for elements that 
+  are direct neighbours or lie above each other</LI>
+  <LI><TT>clientX (Number)</TT>: the X coordinate where the event happened in 
+  reference to the browser window, frame or embed; needs to be translated first 
+  to the viewBox coordinate system (see below)</LI>
+  <LI><TT>clientY (Number)</TT>: the Y coordinate where the event happened in 
+  reference to the browser window, frame or embed; needs to be translated first 
+  to the viewBox coordinate system (see below)</LI>
+  <LI><TT>screenX (Number)</TT>: the X coordinate where the event happened in 
+  relation to the Screen, in relation to the upper left corner of the 
+  monitor</LI>
+  <LI><TT>screenY (Number)</TT>: the Y coordinate where the event happened in 
+  relation to the Screen, in relation to the upper left corner of the 
+  monitor</LI>
+  <LI><TT>button (Number)</TT>: indicates which mousebutton was pressed, 0 means 
+  "left", 1 means "middle", 2 means "right", for left-hand configured mouses 
+  these values are reversed</LI>
+  <LI><TT>detail (Number)</TT>: indicates how often the mouse-event happened at 
+  the same position, is incremented by one for each event that happened at the 
+  same position, (relevant to detect double and multiple clicks)</LI>
+  <LI><TT>altKey (Boolean)</TT>: was the 'alt' key depressed when the event was 
+  fired?</LI>
+  <LI><TT>ctrlKey (Boolean)</TT>: was the 'ctrl' key depressed when the event 
+  was fired?</LI>
+  <LI><TT>shiftKey (Boolean)</TT>: was the 'shift' key depressed when the event 
+  was fired?</LI>
+  <LI><TT>metaKey (Boolean)</TT>: was the 'ctrl' (Windows, Linux) or 'apple key' 
+  (MacOSX) depressed when the event was fired?</LI>
+  <LI><TT>view (views::AbstractView)</TT>: ? don't know what this property is 
+  used for - if you know, please contact me by <A href="mailto:neumann@karto.baug.ethz.ch">mail</A></LI>
+</UL>
+<P>Methods</P>
+<UL>
+  <LI><TT>.initEvent()</TT> initializes a newly created event → see artificially 
+  creating an event; note that inherited events also allow to set general event 
+  properties, so if one uses <TT>.initUIEvent()</TT> or 
+  <TT>.initMouseEvent()</TT>, this method is not necessary</LI>
+  <LI><TT>.initUIEvent()</TT> initializes a newly created UI event with all 
+  necessary properties → see artificially creating an event, since a MouseEvent 
+  is also a UIEvent one can also initialize it as a <TT>UIEvent</TT>; note that 
+  inherited events also allow to set general UIEvent properties, so if one uses 
+  <TT>.initMouseEvent()</TT>, this method is not necessary</LI>
+  <LI><TT>.initMouseEvent()</TT> initializes a newly created Mouse event with 
+  all necessary properties → see artificially creating an event, since a 
+  MouseEvent is also a UIEvent one can also initialize it as a UIEvent</LI>
+  <LI><TT>.preventDefault()</TT> cancels an event if its cancelable, cancels 
+  default action</LI>
+  <LI><TT>.stopPropagation()</TT> Prevents further propagation (bubbling up in 
+  the DOM) of the current event</LI></UL>
+<DIV class="info">
+<H3>Example 2: Demonstration of mouse specific Event Properties</H3><TT><PRE>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 450 250" onload="init()"&gt;
+    &lt;title&gt;Demonstration of MouseEvent properties and methods&lt;/title&gt;
+    &lt;script type="text/ecmascript"&gt;
+        &lt;![CDATA[
+            var evtText1;
+            var evtText2;
+            var evtText3;
+            var evtText4;
+            function init() {
+                evtText1 = document.getElementById("evtText1");
+                evtText2 = document.getElementById("evtText2");
+                evtText3 = document.getElementById("evtText3");
+                evtText4 = document.getElementById("evtText4");
+            }
+            function showEvtData(evt) {
+                evt.preventDefault();
+                evtText1.firstChild.nodeValue = ".type="+evt.type+", .screenX="+evt.screenX+", .screenY="+evt.screenY+", .clientX="+evt.clientX+", .clientY="+evt.clientY;
+                var text = ".target.id="+evt.target.getAttributeNS(null,"id")+", .currentTarget.id="+evt.currentTarget.getAttributeNS(null,"id");
+                if (evt.relatedTarget) {
+                    if (evt.relatedTarget.hasAttributeNS(null,"id")) {
+                        text += ", .relatedTarget.id="+evt.relatedTarget.getAttributeNS(null,"id");
+                    }
+                    else {
+                        text += ", .relatedTarget.id=no id available";
+                    }
+                }
+                else {
+                    text += ", .relatedTarget=undefined";
+                }
+                evtText2.firstChild.nodeValue = text;
+                evtText3.firstChild.nodeValue = ".button="+evt.button+", .detail="+evt.detail+", .timeStamp="+evt.timeStamp;
+                evtText4.firstChild.nodeValue = ".altKey="+evt.altKey+", .shiftKey="+evt.shiftKey+", .ctrlKey="+evt.ctrlKey+", .metaKey="+evt.metaKey;
+           }
+        ]]&gt;
+    &lt;/script&gt;
+    &lt;rect id="bgRect" x="-500" y="-500" width="1500" height="1500" fill="yellow" stroke="none" /&gt;
+    &lt;rect x="5" y="40" width="50" height="30" fill="red" onclick="showEvtData(evt)" onmouseover="showEvtData(evt)" onmouseout="showEvtData(evt)" id="myRedRect" /&gt;
+    &lt;g id="ancestorOfGreenRect" onclick="showEvtData(evt)" onmouseover="showEvtData(evt)" onmouseout="showEvtData(evt)"&gt;
+        &lt;rect x="55" y="40" width="50" height="30" fill="green" id="myGreenRect" /&gt;
+    &lt;/g&gt;
+    &lt;rect x="190" y="40" width="50" height="30" fill="darkgray" id="myGrayRect" onmousemove="showEvtData(evt)" /&gt;
+    &lt;rect x="250" y="40" width="50" height="30" fill="black" id="myBlackRect" onmousemove="showEvtData(evt)" /&gt;
+    &lt;g font-size="10px" font-family="Arial"&gt;
+        &lt;text x="5" y="30" font-size="12px" font-weight="bold"&gt;Demonstration of MouseEvent properties and methods&lt;/text&gt;
+        &lt;text x="5" y="90"&gt;Click, mouseover and mouseout&lt;tspan x="5" dy="15"&gt;on the above red and green&lt;/tspan&gt;&lt;tspan x="5" dy="15"&gt;rectangles&lt;/tspan&gt;&lt;/text&gt;
+        &lt;text x="190" y="90"&gt;Mousemove over the&lt;tspan x="190" dy="15"&gt;gray and black rects to get&lt;/tspan&gt;&lt;tspan x="190" dy="15"&gt;properties of the mousemove event&lt;/tspan&gt;&lt;/text&gt;
+        &lt;text x="5" y="160" id="evtText1"&gt; &lt;/text&gt;
+        &lt;text x="5" y="175" id="evtText2"&gt; &lt;/text&gt;
+        &lt;text x="5" y="190" id="evtText3"&gt; &lt;/text&gt;
+        &lt;text x="5" y="205" id="evtText4"&gt; &lt;/text&gt;
+    &lt;/g&gt;
+&lt;/svg&gt;
+</PRE></TT><EMBED 
+height="333" type="image/svg+xml" width="600" src="example2_mouseevent_properties_and_methods.svg">
+<P><A href="http://www.carto.net/svg/eventhandling/example2_mouseevent_properties_and_methods.svg" 
+target="_new">Link to example 2 (example2_mouseevent_properties_and_methods.svg) 
+- in a separate window)</A></P>
+<P>The above example shows <TT>MouseEvent</TT> specific properties. Note that 
+for some properties the behaviour of the various browsers or SVG UAs is 
+different. Some UAs don't display the <TT>.timeStamp</TT> property for all 
+MouseEvent types, but only for some (e.g. click). Some don't report the middle 
+or right mouse button but open context menues. Also, some UAs handle the 
+'ctrlKey' and/or 'metaKey' wrong on MacOSX. The <TT>.detail</TT> property does 
+not always work in all UAs, unfortunately. The most complete implementation 
+regarding events (as often) is the Apache Batik implementation. Note that 
+<TT>.relatedTarget</TT> property makes only really sense for 
+<TT>onmouseover</TT> and <TT>onmouseout</TT> combinations of neighbour elements 
+or elements behind each other, such as is the case with our background 
+rectangle.</P></DIV>
+<H3>Converting clientX to viewBox coordinates:</H3>
+<P>In the above example (example2) we discovered that both screenX/screenY and 
+clientX/clientY don't report the coordinates used in our viewBox coordinate 
+system. However, the viewBox coordinates are usually the ones we want to get, 
+since we perhaps want to drag elements within the viewBox, create new elements 
+or show tooltips where the mouse event happened. The following example shows how 
+this calculation works. As this method is almost always required, we should link 
+to the following external <A 
+href="http://www.carto.net/svg/resources/mapApp.js">ecmascript-file 
+(mapApp.js)</A> in our SVG files. Additionally, the function 
+<TT>getTransformToRootElement()</TT> from the external <A href="http://www.carto.net/svg/resources/helper_functions.js">ecmascript-file 
+(helper_functions.js)</A> is needed.</P>
+<DIV class="info">
+<H3>Example 3: Demonstration of clientX/Y to viewBox Coordinate 
+Conversion</H3><TT><PRE>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="0 0 450 250" onload="init()" onmousemove="showCoords(evt)"&gt;
+    &lt;title&gt;Demonstration of clientX/Y to viewBox Coordinate Conversion&lt;/title&gt;
+    &lt;script type="text/ecmascript" xlink:href="../resources/helper_functions.js" /&gt;
+    &lt;script type="text/ecmascript" xlink:href="../resources/mapApp.js" /&gt;
+    &lt;script type="text/ecmascript"&gt;
+        &lt;![CDATA[
+            var evtText1;
+            var evtText2;
+            var myMapApp = new mapApp();
+            function init() {
+                myRedRect = document.getElementById("myRedRect");
+                evtText1 = document.getElementById("evtText1");
+                evtText2 = document.getElementById("evtText2");
+            }
+            function showCoords(evt) {
+                var coords = myMapApp.calcCoord(evt);
+                evtText1.firstChild.nodeValue = ".screenX="+evt.screenX+", .screenY="+evt.screenY+", .clientX="+evt.clientX+", .clientY="+evt.clientY+", viewBoxX="+coords.x.toFixed(1)+", viewBoxY="+coords.y.toFixed(1);
+            }
+        ]]&gt;
+    &lt;/script&gt;
+    &lt;rect id="bgRect" x="-500" y="-500" width="1500" height="1500" fill="yellow" stroke="none" /&gt;
+    &lt;g font-size="10px" font-family="Arial"&gt;
+        &lt;text x="10" y="30" font-size="12px" font-weight="bold"&gt;Demonstration of clientX/Y to viewBox Coordinate Conversion&lt;/text&gt;
+        &lt;text x="10" y="130" onclick="updateRectColor()"&gt;Move your mouse to get clientX/Y, screenX/Y and viewBox coordinates.&lt;/text&gt;
+        
+        &lt;text x="10" y="170" id="evtText1"&gt; &lt;/text&gt;
+        &lt;text x="10" y="185" id="evtText2"&gt; &lt;/text&gt;
+    &lt;/g&gt;
+    &lt;g id="gridlines" stroke="black" stroke-width="1"&gt;
+        &lt;line x1="0" y1="0" x2="450" y2="0" /&gt;
+        &lt;line x1="0" y1="100" x2="450" y2="100" /&gt;
+        &lt;line x1="0" y1="200" x2="450" y2="200" /&gt;
+        &lt;line x1="0" y1="250" x2="450" y2="250" /&gt;
+        &lt;line x1="0" y1="0" x2="0" y2="250" /&gt;
+        &lt;line x1="100" y1="0" x2="100" y2="250" /&gt;
+        &lt;line x1="200" y1="0" x2="200" y2="250" /&gt;
+        &lt;line x1="300" y1="0" x2="300" y2="250" /&gt;
+        &lt;line x1="400" y1="0" x2="400" y2="250" /&gt;
+        &lt;line x1="450" y1="0" x2="450" y2="250" /&gt;
+    &lt;/g&gt;
+    &lt;g id="gridLineLettering" font-size="8px"&gt;
+        &lt;g text-anchor="start"&gt;
+            &lt;text x="2" y="8"&gt;x=0/y=0&lt;/text&gt;
+            &lt;text x="2" y="97"&gt;x=0/y=100&lt;/text&gt;
+            &lt;text x="2" y="197"&gt;x=0/y=200&lt;/text&gt;
+            &lt;text x="2" y="247"&gt;x=0/y=250&lt;/text&gt;
+            &lt;text x="102" y="8"&gt;x=100/y=0&lt;/text&gt;
+            &lt;text x="202" y="8"&gt;x=200/y=0&lt;/text&gt;
+            &lt;text x="302" y="8"&gt;x=300/y=0&lt;/text&gt;
+            &lt;text x="102" y="247"&gt;x=100/y=250&lt;/text&gt;
+            &lt;text x="202" y="247"&gt;x=200/y=250&lt;/text&gt;
+            &lt;text x="302" y="247"&gt;x=300/y=250&lt;/text&gt;
+        &lt;/g&gt;
+        &lt;g text-anchor="end"&gt;
+            &lt;text x="448" y="8"&gt;x=450/y=0&lt;/text&gt;
+            &lt;text x="448" y="97"&gt;x=450/y=100&lt;/text&gt;
+            &lt;text x="448" y="197"&gt;x=450/y=200&lt;/text&gt;
+            &lt;text x="448" y="247"&gt;x=450/y=250&lt;/text&gt;
+            &lt;text x="398" y="8"&gt;x=400/y=0&lt;/text&gt;
+            &lt;text x="398" y="247"&gt;x=400/y=250&lt;/text&gt;
+        &lt;/g&gt;
+    &lt;/g&gt;
+&lt;/svg&gt;		
+		</PRE></TT><EMBED 
+height="333" type="image/svg+xml" width="600" src="example3_clientXY_to_viewBox_coordinate_conversion.svg">
+<P><A href="http://www.carto.net/svg/eventhandling/example3_clientXY_to_viewBox_coordinate_conversion.svg" 
+target="_new">Link to example 3 
+(example3_clientXY_to_viewBox_coordinate_conversion.svg) - in a separate 
+window)</A></P>
+<P>The example above shows how to convert the clientX/Y coordinates to our 
+viewBox coordinates. With conforming viewers this also works after zoomin and 
+panning. We do not explain the conversion in detail in this tutorial but explain 
+how you use the <TT>mapApp</TT> object. In order to use this object you must 
+link the external scripts <TT>mapApp.js</TT> and <TT>helper_functions.js</TT>. 
+In the global section of the script you should include the line</P><TT><PRE>var myMapApp = new mapApp();
+</PRE></TT>
+<P>to make an instance of the <TT>mapApp</TT> object. In order to convert the 
+coordinates you should use the method <TT>mapApp.calcCoord(evt)</TT> and pass 
+the <TT>evt</TT> object as parameter. As a result, you get a converted 
+<TT>SVGPoint</TT> object where you can use the <TT>.x</TT> and <TT>.y</TT> 
+properties. You use this method as follows:</P><TT><PRE>var coords = myMapApp.calcCoord(evt);
+</PRE></TT>
+<P>Within the file <TT>mapApp.js</TT> there is a fork for SVG UAs that 
+understand the method <TT>.getScreenCTM()</TT> and those who don't. ASV3 is a 
+representative of the group of UAs who don't understand it. Most of the code is 
+used to handle these non-conforming viewers. All other viewers just make use of 
+the simple and straight-forward <TT>document.getScreenCTM()</TT> method. The 
+<TT>mapApp</TT> object hides the complexity of handling the different viewers 
+from the SVG content developer.</P></DIV>
+<H3>MutationEvent Properties and Methods:</H3>
+<P>Next, we discuss properties and methods available to all mutation events, 
+some of the properties and methods are inherited from the general Events:</P>
+<P>Properties</P>
+<UL>
+  <LI><TT>.type (String)</TT>: the type of the event, e.g. "click"</LI>
+  <LI><TT>.currentTarget (EventTarget)</TT>: a reference to the element to which 
+  the event handler was assigned</LI>
+  <LI><TT>.target (EventTarget)</TT>: a reference to the element which caught 
+  the event</LI>
+  <LI><TT>.timeStamp (Number)</TT>: timestamp in milliseconds after January 1, 
+  1970</LI>
+  <LI><TT>.bubbles (Boolean)</TT>: indicates if event bubbles</LI>
+  <LI><TT>.cancelable (Boolean)</TT>: indicates if event is cancelable</LI>
+  <LI><TT>.eventPhase (Number)</TT>: indicates in which phase the event took 
+  place: 1 (CAPTURING_PHASE), 2 (AT_TARGET), 3 (BUBBLING_PHASE)</LI>
+  <LI><TT>.relatedNode (dome::Node)</TT>: a reference to the node or attribute 
+  where the MutationEvent happened</LI>
+  <LI><TT>attrChange (Number)</TT>: indicating the following: 1 
+  (MutationEvent.MODIFICATION), 2 (MutationEvent.ADDITION), 3 
+  (MutationEvent.REMOVAL)</LI>
+  <LI><TT>attrName (String)</TT>: attribute Name that has been changed</LI>
+  <LI><TT>newValue (String)</TT>: the new value of the attribute that was 
+  changed</LI>
+  <LI><TT>prevValue (String)</TT>: the previous value of the attribute that was 
+  changed</LI></UL>
+<P>Methods</P>
+<UL>
+  <LI><TT>.initEvent()</TT> initializes a newly created event with all necessary 
+  properties → see artificially creating an event; note that inherited events 
+  also allow to set general event properties, so if one uses 
+  <TT>.initMutationEvent()</TT>, this method is not necessary</LI>
+  <LI><TT>.initMutationEvent()</TT> initializes a newly created Mutation event 
+  with all necessary properties → see artificially creating an event</LI>
+  <LI><TT>.preventDefault()</TT> cancels an event if its cancelable, cancels 
+  default action</LI>
+  <LI><TT>.stopPropagation()</TT> Prevents further propagation (bubbling up in 
+  the DOM) of the current event</LI></UL>
+<DIV class="info">
+<H3>Example 4: Demonstration of MutationEvent specific Properties</H3><TT><PRE>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 450 250" onload="init()"&gt;
+    &lt;title&gt;Demonstration of MutationEvent properties and methods&lt;/title&gt;
+    &lt;script type="text/ecmascript"&gt;
+        &lt;![CDATA[
+            var evtText1;
+            var evtText2;
+            var evtText3;
+            var myRedRect;
+            function init() {
+                myRedRect = document.getElementById("myRedRect");
+                evtText1 = document.getElementById("evtText1");
+                evtText2 = document.getElementById("evtText2");
+                evtText3 = document.getElementById("evtText3");
+                //add mutation event to myRedRect that listens to attribute changes
+                document.getElementById("myRedRect").addEventListener("DOMAttrModified",showColorUpdate,false);
+            }
+            function showColorUpdate(evt) {
+                evtText1.firstChild.nodeValue = ".attrName="+evt.attrName+", .prevValue="+evt.prevValue+", .newValue="+evt.newValue;
+                evtText2.firstChild.nodeValue = ".target.id="+evt.target.getAttributeNS(null,"id")+", .currentTarget.id="+evt.currentTarget.getAttributeNS(null,"id") + ", .relatedNode.nodeName="+evt.relatedNode.nodeName;;
+                var changeType = "";
+                switch(evt.attrChange) {
+                    case 1:
+                        changeType = "attribute was modified";
+                        break;
+                    case 2:
+                        changeType = "attribute was added";
+                        break;
+                    case 3:
+                        changeType = "attribute was removed";
+                        break;
+                 }
+                 evtText3.firstChild.nodeValue = ".timeStamp="+evt.timeStamp+", .attrChange=" + evt.attrChange+" ("+changeType+")";
+            }
+           function updateRectColor() {
+                var changeAttr = "fill";
+                if (Math.random() &lt; 0.5) {
+                    changeAttr = "stroke";
+                }
+                var red = parseInt(Math.random()*255);
+                var green = parseInt(Math.random()*255);
+                var blue = parseInt(Math.random()*255);
+                myRedRect.setAttributeNS(null,changeAttr,"rgb("+red+","+green+","+blue+")");
+           }
+           function removeRectColor() {
+                var changeAttr = "fill";
+                if (Math.random() &lt; 0.5) {
+                    changeAttr = "stroke";
+                }               
+                if (myRedRect.hasAttributeNS(null,changeAttr)) {
+                	myRedRect.removeAttributeNS(null,changeAttr);
+                }
+           }
+        ]]&gt;
+    &lt;/script&gt;
+    &lt;rect x="5" y="40" width="50" height="30" fill="red" id="myRedRect" stroke="blue" stroke-width="5"/&gt;
+    &lt;g font-size="10px" font-family="Arial"&gt;
+        &lt;text x="5" y="30" font-size="12px" font-weight="bold"&gt;Demonstration of MutationEvent properties and methods&lt;/text&gt;
+        &lt;text x="5" y="90" onclick="updateRectColor()"&gt;Click repeatedly on this text to change the stroke or fill color of the above rectangle using
+          &lt;tspan x="5" dy="15"&gt;a random generator. A mutation event is triggered that displays the attribute that was changed&lt;/tspan&gt;&lt;tspan x="5" dy="15"&gt;as well as the old and new values.&lt;/tspan&gt;&lt;/text&gt;
+        &lt;text x="5" y="140" onclick="removeRectColor()"&gt;Click this text to remove the fill or stroke color&lt;/text&gt;
+        
+        &lt;text x="5" y="170" id="evtText1"&gt; &lt;/text&gt;
+        &lt;text x="5" y="185" id="evtText2"&gt; &lt;/text&gt;
+        &lt;text x="5" y="200" id="evtText3"&gt; &lt;/text&gt;
+    &lt;/g&gt;
+&lt;/svg&gt;
+		</PRE></TT><EMBED 
+height="333" type="image/svg+xml" width="600" src="example4_mutationevent_properties_and_methods.svg">
+<P><A href="http://www.carto.net/svg/eventhandling/example4_mutationevent_properties_and_methods.svg" 
+target="_new">Link to example 4 
+(example4_mutationevent_properties_and_methods.svg) - in a separate 
+window)</A></P>
+<P>The above example shows all mutation specific properties. One can see which 
+attribute was changed, whether it was added, removed or changed. Finally, one 
+gets the previous and new values. Note that mutation events do not work in ASV3, 
+but they work in ASV6, Batik, Opera9 and MozillaSVG. Opera9 does not return the 
+original values in <TT>.prevValue</TT> and <TT>.newValue</TT> but normalized 
+values (e.g. hex values for colors).</P></DIV>
+<H3>The SVGResize Event - Detecting when the size of the SVG canvas 
+changed:</H3>
+<P>The SVGResize Event is very usefult for resetting coordinate system and 
+re-positioning UI elements after the window size changed.</P>
+<DIV class="info">
+<H3>Example 5: Demonstration of the SVGResize Event</H3><TT><PRE>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="0 0 450 250" onload="repositionRects(evt)" onresize="repositionRects(evt)"&gt;
+    &lt;title&gt;Demonstration of clientX/Y to viewBox Coordinate Conversion&lt;/title&gt;
+    &lt;script type="text/ecmascript"&gt;
+        &lt;![CDATA[
+            function repositionRects(evt) {
+                var svgroot = document.documentElement;
+                //some viewers don't know window.innerWidth/Height, some don't know viewport ...
+                var vbWidth;
+                var vbHeight;
+                if (!window.innerWidth) {
+                    vbWidth = svgroot.viewport.width;
+                }
+                else {
+                    vbWidth = window.innerWidth;
+                }                
+                if (!window.innerHeight) {
+                    vbHeight = svgroot.viewport.height;
+                }
+                else {
+                    vbHeight = window.innerHeight;
+                }                
+                //reset viewBox to reflect different embed/window size
+                var vbString = "0 0 "+vbWidth+" "+vbHeight;
+                svgroot.setAttributeNS(null,"viewBox",vbString);
+                //reset text that displays the viewBox attribute
+                var vbText = document.getElementById("vbText");
+                vbText.setAttributeNS(null,"x",vbWidth / 2);
+                vbText.setAttributeNS(null,"y",vbHeight / 2);
+                vbText.firstChild.nodeValue = "viewBox=\""+vbString+"\"";
+                //reposition rects
+                var rectSide = 50;
+                document.getElementById("rectLowerLeft").setAttributeNS(null,"y",vbHeight-rectSide);
+                document.getElementById("rectUpperRight").setAttributeNS(null,"x",vbWidth-rectSide);
+                var rectLowerRight = document.getElementById("rectLowerRight");
+                rectLowerRight.setAttributeNS(null,"x",vbWidth-rectSide);
+                rectLowerRight.setAttributeNS(null,"y",vbHeight-rectSide);
+            }
+        ]]&gt;
+    &lt;/script&gt;
+    &lt;rect id="rectUpperLeft" x="0" y="0" width="50" height="50" fill="red" /&gt;
+    &lt;rect id="rectLowerLeft" x="0" y="0" width="50" height="50" fill="red" /&gt;
+    &lt;rect id="rectUpperRight" x="0" y="0" width="50" height="50" fill="red" /&gt;
+    &lt;rect id="rectLowerRight" x="0" y="0" width="50" height="50" fill="red" /&gt;
+    &lt;text id="vbText" x="0" y="0" width="50" height="50" font-family="Arial" font-size="15" text-anchor="middle"&gt; &lt;/text&gt;
+&lt;/svg&gt;
+		</PRE></TT><EMBED 
+height="300" type="image/svg+xml" width="80%" 
+src="example5_svgresize_event.svg">
+<P><A href="http://www.carto.net/svg/eventhandling/example5_svgresize_event.svg" 
+target="_new">Link to example 5 (example5_svgresize_event.svg) - in a separate 
+window)</A></P>
+<P>The <TT>SVGResize</TT> event does not yet work in MozillaSVG!</P>
+<P>In the above example we assign an SVGResize event to the svg root element. 
+Onload and each time the user resizes the window, the viewBox is adapted to the 
+window width and the four squares are re-positioned. Re-positioning is only 
+necessary for the right and bottom rectangles, since 0/0 is always top-left. 
+Some UAs support the <TT>window.innerWidth</TT> and <TT>window.innerHeight</TT> 
+properties, some support the <TT>viewport</TT> property of the svg root element. 
+Both values lead to the inner proportions of the window/frame or embed size. The 
+effect of the <TT>SVGResize</TT> event is best visible if you open the example 5 
+in a separate window and resize the window. A text in the center of the viewBox 
+always displays the viewBox coordinate system.</P></DIV>
+<H3>The SVGScroll and SVGZoom Events - Detecting when the user or a script 
+zoomed or panned:</H3>
+<P>These two events are useful if one wants to make elements "immune" to zooming 
+and panning. We can detect scrolling and panning and then compensate with the 
+inverse of the screenCTM, compensated by the viewBox coordinate system</P>
+<DIV class="info">
+<H3>Example 6: Demonstration of the SVGScroll and SVGZoom Events</H3><TT><PRE>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="0 0 450 337" onload="init()" onmousemove="showCoords(evt)" overflow="visible"&gt;
+    &lt;title&gt;Demonstration of using the SVGScroll and SVGZoom Event&lt;/title&gt;
+    &lt;script type="text/ecmascript" xlink:href="../resources/helper_functions.js" /&gt;
+    &lt;script type="text/ecmascript" xlink:href="../resources/mapApp.js" /&gt;
+    &lt;script type="text/ecmascript"&gt;
+        &lt;![CDATA[
+            var evtText1;
+            var textGroup;
+            var myMapApp = new mapApp();
+            var myPhoto;
+            var viewBox;
+            function init(evt) {
+                var svgroot = document.documentElement;
+                //getting references to dynamic text elements
+                evtText1 = document.getElementById("evtText1");
+                textGroup = document.getElementById("textGroup");
+                myPhoto = document.getElementById("myPhoto");
+                viewBox = new ViewBox(svgroot);
+                svgroot.addEventListener("SVGScroll",resetTransformation,false);
+                svgroot.addEventListener("SVGZoom",resetTransformation,false);
+                resetTransformation(evt);
+            }
+            function resetTransformation(evt) {
+                //need to compensate for viewBox coordinate system
+                var factorX = viewBox.windowWidth / parseFloat(document.documentElement.getAttributeNS(null,"viewBox").split(" ")[2]);
+                var factorY = viewBox.windowHeight / parseFloat(document.documentElement.getAttributeNS(null,"viewBox").split(" ")[3]);
+                if (factorX &gt; factorY) {
+                	factor = factorY;
+                }
+                else {
+                	factor = factorX;
+                }
+                if (!document.documentElement.getScreenCTM) {
+                	//replacement for missing .getScreenCTM()
+                	var mat = getTransformToRootElement(textGroup.parentNode);
+                	mat = mat.inverse().multiply(myMapApp.m);
+                }
+                else {
+                 	var mat = textGroup.parentNode.getScreenCTM().inverse();               
+                }
+                textGroup.setAttributeNS(null,"transform","matrix("+(mat.a*factor)+" "+mat.b+" "+mat.c+" "+(mat.d*factor)+" "+mat.e+" "+mat.f+")");
+           }
+            function showCoords(evt) {
+                var coords = myMapApp.calcCoord(evt);
+                evtText1.firstChild.nodeValue = "Your viewBox coordinates: "+coords.x.toFixed(1)+", "+coords.y.toFixed(1);
+            }
+       ]]&gt;
+    &lt;/script&gt;
+    &lt;rect fill="yellow" width="10000" height="10000" x="-4000" y="-4000" /&gt;
+    &lt;image id="myPhoto" x="0" y="0" width="450" height="337" xlink:href="../gui/selectionlist/roses/whisky_mac.jpg" /&gt;
+    &lt;g id="textGroup" font-size="10px" font-family="Arial" text-anchor="middle" pointer-events="none" fill="royalblue"&gt;
+        &lt;text x="225" y="30" font-size="12px" font-weight="bold"&gt;Demonstration of using the SVGScroll and SVGZoom Event&lt;/text&gt;
+        &lt;text x="225" y="60"&gt;Zoom in or Pan and Move your mouse.&lt;tspan x="225" dy="15"&gt;The text elements will always remain at the same position&lt;/tspan&gt;&lt;/text&gt;
+        &lt;text x="225" y="330" id="evtText1"&gt;Your viewBox coordinates:&lt;/text&gt;
+    &lt;/g&gt;
+&lt;/svg&gt;
+		</PRE>
+</TT><EMBED height="449" type="image/svg+xml" width="600" src="example6_svgscroll_and_svgzoom.svg">
+<P><A href="http://www.carto.net/svg/eventhandling/example6_svgscroll_and_svgzoom.svg" 
+target="_new">Link to example 6 (example6_svgscroll_and_svgzoom.svg) - in a 
+separate window)</A></P>
+<P></P></DIV>
+<H3>Adding and Removing Event Listeners, Keyboard Events:</H3>
+<P>Often it is necessary to add and remove event listeners to existing or newly 
+created elements during the runtime of the program. For this purpose the DOM 
+offers the methods <TT>.addEventListener()</TT> and 
+<TT>.removeEventListener</TT></P>
+<P>In the following examples we create a very primitive textbox that allows to 
+type in text. A click on the textbox activates the keyboard events, a click 
+outside the box or the enter key disables the typing.</P>
+<DIV class="info">
+<H3>Example 7: Demonstration of Adding and Removing of Event Listeners, Keyboard 
+Events</H3><TT><PRE>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"&gt;
+&lt;svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="0 0 450 250" onload="init()" xml:space="preserve"&gt;
+    &lt;title&gt;Demonstration of adding and Removing Event Listeners as well as KeyEvents&lt;/title&gt;
+    &lt;script type="text/ecmascript"&gt;
+        &lt;![CDATA[
+            var evtText1;
+            var evtText2;
+            var evtText3;
+            var typeInitialized = false;
+            var text = "";
+            function init() {
+                //getting references to dynamic text elements
+                evtText1 = document.getElementById("evtText1");
+                evtText2 = document.getElementById("evtText2");
+                evtText3 = document.getElementById("evtText3");
+            }
+            //this function handles the keyboard events
+            function typeText(evt) {
+               //handle "keypress" for all "real characters"
+               if (evt.type == "keypress") {
+                   //some browsers support evt.charCode, some only evt.keyCode
+                   if (evt.charCode) {
+                        var charCode = evt.charCode;
+                   }
+                   else {
+                        var charCode = evt.keyCode;
+                   }
+                   //all real characters
+                   if (charCode &gt; 31 &amp;&amp; charCode != 127 &amp;&amp; charCode &lt; 65535) {
+                        text += String.fromCharCode(charCode);
+                   }
+                    //backspace key
+		           if (charCode == 8) {
+                        //shorten text
+                        text = text.substring(0,text.length-1);
+                   }
+                   //enter key
+                   else if (charCode == 10 || charCode == 13) {
+                         stopTyping(evt);
+                   }
+               }
+               //update dynamic text
+               evtText1.firstChild.nodeValue = text; 
+               //suppress unwanted browser shortcuts. e.g. in Opera or Mozilla
+               evt.preventDefault();
+            }
+            //this function adds the event listeners
+            function initTyping(evt) {
+                if (!typeInitialized) {
+                    document.documentElement.addEventListener("keypress",typeText,false);
+                    document.documentElement.addEventListener("click",stopTyping,false);
+                    evtText2.firstChild.nodeValue = "Typing Active";
+                    typeInitialized = true;
+                }
+                //we don't want the click event on the document level to
+                //immediately stop the typing mode
+                evt.stopPropagation();
+            }
+            function stopTyping(evt) {
+                    document.documentElement.removeEventListener("keypress",typeText,false);
+                    document.documentElement.removeEventListener("click",stopTyping,false);
+                    typeInitialized = false;
+                    evtText2.firstChild.nodeValue = "Typing Inactive";
+                    evtText3.firstChild.nodeValue = "You typed: "+text;
+            }
+        ]]&gt;
+    &lt;/script&gt;
+    &lt;rect id="bgRect" x="-500" y="-500" width="1500" height="1500" fill="yellow" stroke="none" /&gt;
+    &lt;rect x="10" y="50" width="150" height="20" fill="white" stroke="black" onclick="initTyping(evt)" /&gt;
+    &lt;g font-size="10px" font-family="Arial"&gt;
+        &lt;text x="10" y="30" font-size="12px" font-weight="bold"&gt;Demonstration of adding and removing Event Listeners&lt;/text&gt;
+        &lt;text x="10" y="130"&gt;Click in the white rectangle to start typing text.
+          &lt;tspan x="10" dy="15"&gt;Click outside the textbox or press enter to stop writing text.&lt;/tspan&gt;
+          &lt;tspan x="10" dy="15"&gt;Press backspace to delete the last character when typing is active&lt;/tspan&gt;&lt;/text&gt;
+        
+        &lt;text x="15" y="65" id="evtText1" pointer-events="none"&gt; &lt;/text&gt;
+        &lt;text x="15" y="90" id="evtText2"&gt;Typing Inactive&lt;/text&gt;
+        &lt;text x="15" y="105" id="evtText3"&gt;You Typed: &lt;/text&gt;
+    &lt;/g&gt;
+&lt;/svg&gt;		
+		</PRE></TT><EMBED 
+height="333" type="image/svg+xml" width="600" src="example7_add_and_remove_event_listener.svg">
+<P><A href="http://www.carto.net/svg/eventhandling/example7_add_and_remove_event_listener.svg" 
+target="_new">Link to example 7 (example7_add_and_remove_event_listener.svg) - 
+in a separate window)</A></P>
+<P>Note that for the above example the backspace and enter key does not work in 
+ASV3 on Macintosh. It works in all other browsers and SVG UAs.</P>
+<P>In this example we have an onclick event handler attribute assigned to the 
+"texbox" rectangle. If the user clicks on this rectangle, the function 
+<TT>initTyping()</TT> is executed. This function first checks if the textbox is 
+already initialized (boolean variable <TT>typeInitialized</TT>) and adds event 
+listeners if it wasn't already initialized. In our case we add a key and a mouse 
+event listener of the types "<TT>keypress</TT>" and "<TT>click</TT>" to our svg 
+root element. The syntax for adding event listeners is as follows:</P><TT><PRE>element.addEventListener(eventType,listenerFunctionOrObject,useCapture);
+</PRE>
+</TT>
+<P>The eventType is the eventName without the "on"-prefix. The listener function 
+or object is the function or object to be called when the event was triggered. 
+In case of an object, the general method <TT>.handleEvent()</TT> is called if 
+not specified otherwise. Per default, the function or object receives the 
+<TT>evt</TT> object as an argument to allow the developer to use the properties 
+and methods provided by the evt object. Note that there is no way to provide 
+arguments other than the evt object to the function or object. If you need 
+additional arguments, you should set them as object properties prior to 
+triggering this event. The third argument <TT>useCapture</TT> defines if the 
+event is treated in capture or bubble mode. Most of the time you want the bubble 
+mode and therefore set this argument to <TT>false</TT>.</P>
+<P>After setting the event listeners we set the content of a status text to 
+"Typing Active" to indicate that the user can now type in the textbox. 
+Additionally we set the value of the variable <TT>typeInitialized</TT> to 
+<TT>true</TT> to tell our script that typing is already initialized. Finally, we 
+call the method <TT>.stopPropagation</TT> of our <TT>evt</TT> object. This tells 
+the SVG UA not to bubble this event up to it's ancestors. If we omit this 
+method, the event would arrive at the svg root element, which has a newly 
+defined "click" event listener which would cancel typing immediately.</P>
+<P>Likewise we can use the method <TT>.removeEventListener()</TT> which has the 
+same syntax. We use it after the user hits the enter key or clicks on any 
+element except the textbox (refer to the "click" event listener we just added on 
+the root element level). These event listeners call the function 
+<TT>stopTyping()</TT> which removes the temporary event listeners, sets the 
+status text to inactive and the status variable typeInitialized to false. Syntax 
+of Event Listener Removal:</P><TT><PRE>element.removeEventListener(eventType,listenerFunctionOrObject,useCapture);
+</PRE>
+</TT>
+<P>Next, we discuss the keyboard events. Keyboard events aren't standardized in 
+DOM2, but are part of DOM3 which is not yet implemented in all browsers/SVG UAs. 
+Therefore the behaviour of key events varies widely. Some browsers and UAs 
+support the <TT>evt.charCode</TT> property, some the <TT>evt.keyCode</TT> 
+property. We first test, if charCode is successful, if not, we use keyCode. For 
+regular characters we test the range (&gt;31 and &gt;65535, except 127) and use 
+the <TT>String.fromCharCode(charCode)</TT> method to get a character. We 
+concatenate the new character with the old existing string in the global 
+<TT>text</TT> variable. In this primitive textbox we test for two special 
+charCodes: 8 for the backspace key (in this case we remove the last character), 
+10 or 13 for the enter key (in this case we call the <TT>stopTyping()</TT> 
+function). The <TT>evt.preventDefault()</TT> method stops to forward the event 
+to the browser. This method is necessary to avoid confusing user type-ins with 
+browser shortcuts. As an example: when hitting the backspace key Mozilla would 
+go back to the previous webpage. evt.preventDefault() avoids that.</P></DIV>
+<H3>Artificially creating events and dispatching them:</H3>
+<H4>Recommended further resources:</H4>
+<UL>
+  <LI><A href="http://www.w3.org/TR/SVG/svgdom.html" target="_new">W3C SVG Spec, 
+  Appendix B: SVG Document Object Model (DOM)</A></LI>
+  <LI><A href="http://phrogz.net/ObjJob/objects.asp?langID=1" 
+  target="_new">Objects in SVG 1.1, a complete object reference with all 
+  properties and methods</A></LI>
+  <LI><A href="http://www.learnsvg.com/html/bitmap/chapter10/page10-1.htm" 
+  target="_new">Learn SVG Chapter 10, Scripting the DOM</A></LI></UL><BR><BR>
+<HR>
+
+<TABLE width="100%">
+  <TBODY>
+  <TR>
+    <TD align="left">Last modified:  Wednesday, 10-Jan-2007 22:19:06 CET<BR>© 
+      <A href="http://www.carto.net/#en_w3">carto<SPAN 
+      class="expage">:</SPAN>net</A> (<A 
+      href="http://www.carto.net/neumann/">andreas neumann</A> &amp; <A href="http://www.carto.net/andre.mw/">andré 
+      m. winter</A>)<BR>original URL for reference: 
+      http://www.carto.net/svg/eventhandling/index.shtml</TD>
+    <TD vAlign="top" align="right"><A class="expage" href="javascript:location.href='http://del.icio.us/post?v=3&amp;url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title)"><IMG 
+      alt="del.icio.us" align="bottom" src="cartonet%20-%20Event%20Handling%20in%20SVG%20Applications_files/delicious.med.gif" 
+      width="16" height="16">&nbsp;Add this page to del.icio.us</A></TD>
+</TR></TBODY></TABLE></BODY></HTML>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="300" height="300">
+	<script type="text/ecmascript"><![CDATA[
+		var svgNS = "http://www.w3.org/2000/svg";
+		function removeElement(evt) {
+			var element = evt.target;
+			element.parentNode.removeChild(element);
+		}
+		function replaceRect(evt) {
+			var rect = evt.target;
+			var centerX = parseFloat(rect.getAttributeNS(null,"x")) + parseFloat(rect.getAttributeNS(null,"width")) / 2;
+			var centerY = parseFloat(rect.getAttributeNS(null,"y")) + parseFloat(rect.getAttributeNS(null,"height")) / 2;
+			var circle = document.createElementNS(svgNS,"circle");
+			circle.setAttributeNS(null,"cx",centerX);
+			circle.setAttributeNS(null,"cy",centerY);
+			circle.setAttributeNS(null,"r",parseFloat(rect.getAttributeNS(null,"height")) / 2);
+			circle.setAttributeNS(null,"fill","blue");
+			circle.addEventListener("click",removeElement,false);
+			rect.parentNode.replaceChild(circle,rect);
+		}
+		
+	]]></script>
+	<g id="firstGroup">
+		<rect width="70" height="50" x="40" y="5" fill="blue" onclick="replaceRect(evt)"/>
+		<rect width="70" height="50" x="40" y="65" fill="blue" onclick="replaceRect(evt)"/>
+		<rect width="70" height="50" x="40" y="125" fill="blue" onclick="replaceRect(evt)"/>
+		<rect width="70" height="50" x="40" y="185" fill="blue" onclick="replaceRect(evt)"/>
+		<rect width="70" height="50" x="40" y="245" fill="blue" onclick="replaceRect(evt)"/>
+		<text x="150" y="30" font-size="12px">Click on rectangle<tspan x="150" dy="15">to exchange it with a circle,</tspan><tspan x="150" dy="15">Click on Circle to remove it.</tspan>
+		</text>
+	</g>
+</svg>

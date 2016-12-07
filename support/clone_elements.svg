@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="300" height="300">
+	<script type="text/ecmascript"><![CDATA[
+		function cloneRect(evt) {
+			var cloneElement = evt.target.cloneNode(false);
+			var newx = 25 + Math.random() * 200;
+			var newy = 70 + Math.random() * 150;
+			cloneElement.setAttributeNS(null,"x",newx);
+			cloneElement.setAttributeNS(null,"y",newy);
+			document.getElementById("firstGroup").appendChild(cloneElement);
+		}
+		
+	]]></script>
+	<defs>
+      <linearGradient id="MyGradient">
+        <stop offset="5%" stop-color="red" />
+        <stop offset="95%" stop-color="yellow" />
+      </linearGradient>
+    </defs>
+    <g id="firstGroup">
+		<rect width="70" height="50" x="40" y="5" fill="url(#MyGradient)" stroke="blue" stroke-width="2" onclick="cloneRect(evt)"/>
+		<text x="150" y="30" font-size="13px">Click on rectangle<tspan x="150" dy="15">to clone it.</tspan>
+		</text>
+	</g>
+</svg>

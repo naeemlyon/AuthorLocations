@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="300" height="300">
+	<script type="text/ecmascript"><![CDATA[
+		function putToBottom(evt) {
+			//get node reference
+			var element = evt.target;
+			//insert selected  element before the first child
+			//first test if it isn't already the first Child
+			if (element.previousSibling) {
+				element.parentNode.insertBefore(element,element.parentNode.firstChild);
+			}
+		}		
+		function putToTop(evt) {
+			//get node reference
+			var element = evt.target;
+			//appendChild after the last child
+			element.parentNode.appendChild(element);
+		}		
+	]]></script>
+	<g>
+		<rect width="70" height="50" x="10" y="5" fill="blue" onclick="putToBottom(evt)"/>
+		<rect width="70" height="50" x="20" y="25" fill="red" onclick="putToBottom(evt)"/>
+		<rect width="70" height="50" x="30" y="45" fill="yellow" onclick="putToBottom(evt)"/>
+		<rect width="70" height="50" x="40" y="65" fill="orange" onclick="putToBottom(evt)"/>
+		<rect width="70" height="50" x="50" y="85" fill="green" onclick="putToBottom(evt)"/>
+		<text x="120" y="30" font-size="12px">Click on a rectangle to put it<tspan x="120" dy="15">to the bottom of all rectangles.</tspan></text>
+	</g>
+	<g transform="translate(0,150)">
+		<rect width="70" height="50" x="10" y="5" fill="blue" onclick="putToTop(evt)"/>
+		<rect width="70" height="50" x="20" y="25" fill="red" onclick="putToTop(evt)"/>
+		<rect width="70" height="50" x="30" y="45" fill="yellow" onclick="putToTop(evt)"/>
+		<rect width="70" height="50" x="40" y="65" fill="orange" onclick="putToTop(evt)"/>
+		<rect width="70" height="50" x="50" y="85" fill="green" onclick="putToTop(evt)"/>
+		<text x="120" y="30" font-size="12px">Click on a rectangle to put it<tspan x="120" dy="15">on the top of all rectangles.</tspan></text>
+	</g>
+</svg>

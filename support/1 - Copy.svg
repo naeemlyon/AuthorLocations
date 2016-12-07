@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 400 250" onload="init()">
+    <title>Demonstration of basic evt properties and methods</title>
+    <script type="text/ecmascript">
+        <![CDATA[
+            var evtText1;
+            var evtText2;
+            function init() {
+                evtText1 = document.getElementById("evtText1");
+                evtText2 = document.getElementById("evtText2");
+            }
+            function showEvtData(evt) {
+            
+                evtText1.firstChild.nodeValue = "out";
+                if (evt.target.getAttributeNS(null,"id") == "myBlackRect") {
+                    evt.stopPropagation();
+                }
+            }
+			
+						
+			 function showEvtData_1(a) {
+                evtText1.firstChild.nodeValue = "over...";
+				
+                if (evt.target.getAttributeNS(null,"id") == "myBlackRect") {
+                    evt.stopPropagation();
+                }
+            }
+			
+			
+        ]]>
+    </script>
+    <rect x="20" y="40" width="50" height="30" fill="red" onclick="showEvtData(evt)" onmouseover="showEvtData_1(evt)" onmouseout="showEvtData(evt)" id="myRedRect" />
+   
+   
+   
+    <g font-size="10px" font-family="Arial">
+        <text x="20" y="170" id="evtText1"> </text>		
+    </g>
+</svg>
